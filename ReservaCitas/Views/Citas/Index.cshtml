@@ -1,0 +1,52 @@
+﻿@model List<ReservaCitas.Models.Cita>
+
+@{
+    ViewBag.Title = "Lista de Citas";
+}
+
+<h2>Lista de Citas</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensaje"]
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Registrar nueva cita", "Create", "Citas", null, new { @class = "btn btn-primary" })
+</p>
+
+<div class="form-group">
+    <label>Filtrar por estado</label>
+    <select id="estadoFiltro" class="form-control">
+        <option value="">Todos</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Confirmada">Confirmada</option>
+        <option value="Cancelada">Cancelada</option>
+    </select>
+</div>
+
+<br />
+
+<div id="contenedorTabla">
+    @Html.Partial("_TablaCitas", Model)
+</div>
+
+<!-- Solicitud AJAX para filtrar las citas -->
+@section Scripts{
+    <script>
+        $("#estadoFiltro").change(function () {
+            var estadoSeleccionado = $(this).val();
+
+            $.ajax({
+                url: '@Url.Action("FiltrarPorEstado", "Citas")',
+                type: 'GET',
+                data: { estado: estadoSeleccionado },
+                success: function (resultado) {
+                    $("#contenedorTabla").html(resultado);
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@model ReservaCitas.Models.Cita
+
+@{
+    ViewBag.Title = "Registrar Cita";
+}
+
+<h2>Registrar Cita</h2>
+
+@using (Html.BeginForm())
+{
+    <!-- Formulario para registrar una nueva cita -->
+    <div class="form-group">
+        @Html.LabelFor(m => m.NombreCliente)
+        @Html.TextBoxFor(m => m.NombreCliente, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NombreCliente)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Servicio)
+        @Html.TextBoxFor(m => m.Servicio, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Servicio)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Fecha)
+        @Html.TextBoxFor(m => m.Fecha, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+        @Html.ValidationMessageFor(m => m.Fecha)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Hora)
+        @Html.TextBoxFor(m => m.Hora, "{0:HH:mm}", new { @class = "form-control", type = "time" })
+        @Html.ValidationMessageFor(m => m.Hora)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Observaciones)
+        @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Estado)
+        @Html.DropDownListFor(m => m.Estado,
+            new List<SelectListItem>
+            {
+                new SelectListItem { Text="Pendiente", Value="Pendiente"},
+                new SelectListItem { Text="Confirmada", Value="Confirmada"},
+                new SelectListItem { Text="Cancelada", Value="Cancelada"}
+            },
+            "-- Seleccione --",
+            new { @class = "form-control" })
+
+        @Html.ValidationMessageFor(m => m.Estado)
+    </div>
+
+    <br />
+
+    <input type="submit"
+           value="Guardar"
+           class="btn btn-primary"
+           onclick="return confirmarRegistro();" />
+}
+
+<!-- Confirmacion antes de enviar el formulario -->
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function confirmarRegistro() {
+            return confirm("¿Desea registrar la cita?");
+        }
+    </script>
+}

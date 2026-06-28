@@ -1,0 +1,40 @@
+﻿@model ReservaCitas.Models.Cita
+
+@{
+    ViewBag.Title = "Detalle de Cita";
+}
+
+<h2>Detalle de Cita</h2>
+
+@if (Model == null)
+{
+    <div class="alert alert-warning">
+        No se encontró la cita seleccionada.
+    </div>
+}
+else
+{
+    <dl class="dl-horizontal">
+        <dt>Cliente</dt>
+        <dd>@Model.NombreCliente</dd>
+
+        <dt>Servicio</dt>
+        <dd>@Model.Servicio</dd>
+
+        <dt>Fecha</dt>
+        <dd>@Model.Fecha.ToShortDateString()</dd>
+
+        <dt>Hora</dt>
+        <dd>@Model.Hora.ToShortTimeString()</dd>
+
+        <dt>Observaciones</dt>
+        <dd>@Model.Observaciones</dd>
+
+        <dt>Estado</dt>
+        <dd>@Model.Estado</dd>
+    </dl>
+}
+
+<p>
+    @Html.ActionLink("Volver a la lista", "Index", "Citas", null, new { @class = "btn btn-secondary" })
+</p>
